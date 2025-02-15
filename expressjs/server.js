@@ -3,7 +3,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 
-import boardRouter from '#Routes/sample.routes.js';
+import sampleRouter from '#Routes/sample.routes.js';
 import connectDB from '#Utils/dbInit.js';
 
 const server = new express();
@@ -14,7 +14,7 @@ server.use(cors());
 server.use(json());
 
 /* adding routes */
-server.use('/boards', boardRouter);
+server.use('/samples', sampleRouter);
 
 /* adding default GET endpoint */
 server.get('/', (req, res) => {

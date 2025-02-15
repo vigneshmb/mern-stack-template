@@ -6,40 +6,46 @@ const projectFilter = {
 
 const fieldFilter = {};
 
-const createBoard = (req,res)=>{
-    const userData = req.body || {title:"default data"}
-    const newBoard = new boardModels(userData);
-    newBoard.save();
-    res.status(201).send("Board created successfully");
-}
+const createSample = (req, res) => {
+  const userData = req.body || { title: 'default data' };
+  const newSample = new sampleModel(userData);
+  newSample.save();
+  res.status(201).send('Sample created successfully');
+};
 
 /* Read Documents */
-const getBoards = async(req,res)=>{
-    const boardDbData = await boardModels.find({});
-    res.status(200).send(boardDbData);
-}
+const getAllSamples = async (req, res) => {
+  const SampleDbData = await sampleModel.find({});
+  res.status(200).send(SampleDbData);
+};
 
-const getBoardById = async(req,res)=>{
-    // const boardId = req.query.id;
-    const boardId = req.params.boardId
-    const boardDbData = await boardModels.findOne({_id : boardId}).exec();
-    res.status(200).send(boardDbData);
-}
+const getSampleById = async (req, res) => {
+  // const SampleId = req.query.id;
+  const SampleId = req.params.SampleId;
+  const SampleDbData = await sampleModel.findOne({ _id: SampleId }).exec();
+  res.status(200).send(SampleDbData);
+};
 
-const updateBoard =async(req,res)=>{
-    const boardId = req.query.id;
-    const boardData = req.body || {title:"update dummy data"}
-    console.log(boardId,boardData);
-    const resp = await boardModels.findByIdAndUpdate(boardId, boardData);
-    console.log(resp);
-    
-    res.status(200).send("Board updated successfully");
-}
+const updateSample = async (req, res) => {
+  const SampleId = req.query.id;
+  const SampleData = req.body || { title: 'update dummy data' };
+  console.log(SampleId, SampleData);
+  const resp = await sampleModel.findByIdAndUpdate(SampleId, SampleData);
+  console.log(resp);
 
-const deleteBoard =async(req,res)=>{
-    const boardId = req.params.id;
-    await boardModels.deleteOne({ _id: boardId });
-    res.status(200).send("Board deleted successfully");
-}
+  res.status(200).send('Sample updated successfully');
+};
 
-export {createBoard,getBoards,getBoardById,updateBoard,deleteBoard}
+const deleteSample = async (req, res) => {
+  const SampleId = req.params.id;
+  await sampleModel.deleteOne({ _id: SampleId });
+  res.status(200).send('Sample deleted successfully');
+};
+
+export {
+  createSample,
+  getAllSamples,
+  getSampleById,
+  updateSample,
+  deleteSample,
+};

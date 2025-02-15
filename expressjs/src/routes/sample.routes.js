@@ -1,13 +1,19 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { createBoard,getBoards,getBoardById,updateBoard,deleteBoard } from "#Controllers/sample.controller.js";
+import {
+  createSample,
+  getAllSamples,
+  getSampleById,
+  updateSample,
+  deleteSample,
+} from '#Controllers/sample.controller.js';
 
-const boardRouter = Router();
+const SampleRouter = Router();
 
-boardRouter.post("/create",createBoard);
-boardRouter.get("/getAll",getBoards);
-boardRouter.get("/get/:boardId",getBoardById);
-boardRouter.put("/update",updateBoard);
-boardRouter.delete("/delete/:id",deleteBoard);
+SampleRouter.post('/create', createSample);
+SampleRouter.get('/getAll', getAllSamples);
+SampleRouter.get('/get/:SampleId', getSampleById);
+SampleRouter.put('/update', updateSample);
+SampleRouter.delete('/delete/:id', deleteSample);
 
-export default boardRouter;
+export default SampleRouter;
