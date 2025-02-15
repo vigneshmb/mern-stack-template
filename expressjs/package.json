@@ -1,0 +1,44 @@
+{
+  "name": "expressjs-backend-template",
+  "version": "1.0.0",
+  "description": "A Backend developed with ExpressJS-RESTful APIs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file=.env.prod server.js",
+    "devstart": "nodemon --env-file=.env.local server.js",
+    "build": "node server.js",
+    "pretty_check": "prettier --check .",
+    "pretty_write": "prettier --write .",
+    "lint_check": "eslint ."
+  },
+  "keywords": [
+    "MERN",
+    "ExpressJS",
+    "NodeJS"
+  ],
+  "author": "VigneshMB",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "9.20.1",
+    "eslint-config-prettier": "10.0.1",
+    "nodemon": "3.1.9",
+    "prettier": "3.5.1"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "dotenv": "16.4.7",
+    "express": "4.21.2",
+    "joi": "17.13.3",
+    "mongodb": "6.13.0",
+    "mongoose": "8.10.1"
+  },
+  "imports": {
+    "#Controllers/*": "./src/controllers/*",
+    "#Middlewares/*": "./src/middlewares/*",
+    "#Models/*": "./src/models/*",
+    "#Routes/*": "./src/routes/*",
+    "#Utils/*": "./src/utils/*",
+    "#Validators/*": "./src/validators/*",
+    "#Root": "./"
+  }
+}
