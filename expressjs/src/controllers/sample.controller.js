@@ -1,4 +1,5 @@
 import { sampleModel } from '#Models/sample.model.js';
+import { createSampleSchema } from '#Validators/sample.validator.js';
 
 const projectFilter = {
   __v: 0,
@@ -7,6 +8,11 @@ const projectFilter = {
 const fieldFilter = {};
 
 const createSample = (req, res) => {
+  console.log(req.body)
+  const {error} = createSampleSchema.validate(req.body)
+  if(error) {
+    res.status(404).send(error.details[0].message);
+  }
   const userData = req.body || { title: 'default data' };
   const newSample = new sampleModel(userData);
   newSample.save();
