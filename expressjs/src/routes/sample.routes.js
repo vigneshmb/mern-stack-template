@@ -12,8 +12,8 @@ const SampleRouter = Router();
 
 SampleRouter.post('/create', createSample);
 SampleRouter.get('/getAll', getAllSamples);
-SampleRouter.get('/get/:SampleId', getSampleById);
+SampleRouter.get('/get/:sampleId', getSampleById);
 SampleRouter.put('/update', updateSample);
-SampleRouter.delete('/delete/:id', deleteSample);
+SampleRouter.delete('/delete/:sampleId', deleteSample);
 
 export default SampleRouter;
