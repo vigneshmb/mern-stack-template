@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node --env-file=.env.prod server.js",
-    "devstart": "nodemon --env-file=.env.local server.js",
+    "dev": "nodemon --env-file=.env.local server.js",
     "build": "node server.js",
     "pretty_check": "prettier --check .",
     "pretty_write": "prettier --write .",

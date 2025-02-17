@@ -1,4 +1,3 @@
-// require('module-alias/register');
 import express, { json } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
@@ -23,6 +22,7 @@ server.get('/', (req, res) => {
 
 /* starting the server */
 server.listen(appPort, () => {
-  connectDB();
-  console.log(`server is running in the port ${appPort}`);
+  connectDB().then(()=>{
+    console.log(`server is running in the port ${appPort}`);
+  });
 });
