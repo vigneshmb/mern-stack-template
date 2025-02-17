@@ -5,7 +5,11 @@ import {
   updateSampleByIDSchema,
 } from '#Validators/sample.validator.js';
 
-const projectFilter = {
+const fieldMap = ['title', 'description'];
+
+const defProjectFilter = {
+  createdAt: 0,
+  updatedAt: 0,
   __v: 0,
 };
 

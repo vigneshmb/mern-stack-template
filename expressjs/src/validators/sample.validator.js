@@ -14,7 +14,7 @@ export const updateSampleByIDSchema = Joi.object({
     title: Joi.string().required().label('Saranya'),
     description: Joi.string().optional(),
   }),
-  params: Joi.object({
+  query: Joi.object({
     sampleId: Joi.string().hex().length(24).required(),
   }),
 });
