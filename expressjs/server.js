@@ -4,6 +4,7 @@ import 'dotenv/config';
 
 import sampleRouter from '#Routes/sample.routes.js';
 import connectDB from '#Utils/dbInit.js';
+import userAuthCheck from '#Middlewares/userAuth.js';
 
 const server = new express();
 const appPort = process.env.APP_PORT || '4567';
@@ -15,6 +16,9 @@ server.use(json());
 /* adding routes */
 server.use('/samples', sampleRouter);
 
+/* adding routes with middleWare */
+// server.use('/samples', userAuthCheck, sampleRouter);
+
 /* adding default GET endpoint */
 server.get('/', (req, res) => {
   res.status(200).send('Welcome to the ExpressJS backend');
@@ -22,7 +26,7 @@ server.get('/', (req, res) => {
 
 /* starting the server */
 server.listen(appPort, () => {
-  connectDB().then(()=>{
+  connectDB().then(() => {
     console.log(`server is running in the port ${appPort}`);
   });
 });
