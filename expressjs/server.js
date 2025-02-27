@@ -1,9 +1,11 @@
-import express, { json } from 'express';
+import express, { json,Router } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 
 import sampleRouter from '#Routes/sample.routes.js';
-import connectDB from '#Utils/dbInit.js';
+import connectDB from '#Database/mongoDB.js';
+import userAuthCheck from '#Middlewares/userAuth.js';
+import userRouter from '#Routes/user.routes.js';
 
 const server = new express();
 const appPort = process.env.APP_PORT || '4567';
@@ -12,8 +14,16 @@ const appPort = process.env.APP_PORT || '4567';
 server.use(cors());
 server.use(json());
 
+const apiRouter_v1 = Router();
+
 /* adding routes */
-server.use('/samples', sampleRouter);
+
+apiRouter_v1.use('/samples', sampleRouter);
+apiRouter_v1.use('/users', userRouter);
+
+/* adding routes with middleWare */
+// indexRouter.use('/samples', userAuthCheck, sampleRouter);
+server.use('/api/v1', apiRouter_v1);
 
 /* adding default GET endpoint */
 server.get('/', (req, res) => {
@@ -22,7 +32,7 @@ server.get('/', (req, res) => {
 
 /* starting the server */
 server.listen(appPort, () => {
-  connectDB().then(()=>{
+  connectDB().then(() => {
     console.log(`server is running in the port ${appPort}`);
   });
 });

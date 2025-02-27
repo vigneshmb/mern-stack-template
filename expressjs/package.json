@@ -25,15 +25,18 @@
     "prettier": "3.5.1"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "2.8.5",
     "dotenv": "16.4.7",
     "express": "4.21.2",
     "joi": "17.13.3",
+    "jsonwebtoken": "9.0.2",
     "mongodb": "6.13.0",
     "mongoose": "8.10.1"
   },
   "imports": {
     "#Controllers/*": "./src/controllers/*",
+    "#Database/*": "./src/database/*",
     "#Middlewares/*": "./src/middlewares/*",
     "#Models/*": "./src/models/*",
     "#Routes/*": "./src/routes/*",
