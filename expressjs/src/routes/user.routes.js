@@ -1,19 +1,13 @@
 import { Router } from 'express';
 
-import {
-  createSample,
-  getAllSamples,
-  getSampleById,
-  updateSample,
-  deleteSample,
-} from '#Controllers/sample.controller.js';
+import { registerUser } from '#Controllers/user.controller.js';
 
-const SampleRouter = Router();
+const userRouter = Router();
 
-SampleRouter.post('/create', createSample);
-SampleRouter.get('/getAll', getAllSamples);
-SampleRouter.get('/get/:sampleId', getSampleById);
-SampleRouter.put('/update', updateSample);
-SampleRouter.delete('/delete/:sampleId', deleteSample);
+userRouter.post('/register', registerUser);
+// SampleRouter.get('/getAll', getAllSamples);
+// SampleRouter.get('/get/:sampleId', getSampleById);
+// SampleRouter.put('/update', updateSample);
+// SampleRouter.delete('/delete/:sampleId', deleteSample);
 
-export default SampleRouter;
+export default userRouter;
