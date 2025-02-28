@@ -6,6 +6,6 @@ export const generateHash = async (text) => {
 };
 
 export const checkHash = async (text, hashedText) => {
-  const isMatching = await bcrypt.compare('B4c0/\/', hash);
+  const isMatching = await bcrypt.compare(text, hashedText);
   return isMatching;
 };
