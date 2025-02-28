@@ -17,3 +17,13 @@ export const loginUserSchema = Joi.object({
     .label('Email ID/Username'),
   password: Joi.string().required().label('Password'),
 });
+
+export const changeResetPasswordSchema = Joi.object({
+  emailUsername: Joi.alternatives()
+    .try(Joi.string().email(), Joi.string().alphanum().min(3).max(32))
+    .required()
+    .label('Email ID/Username'),
+  password: Joi.string().required().label('Password'),
+  newPassword: Joi.string().optional().label('Password'),
+});
+
