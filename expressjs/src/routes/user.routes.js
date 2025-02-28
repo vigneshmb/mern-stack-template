@@ -1,14 +1,21 @@
 import { Router } from 'express';
 
-import { loginUser, registerUser } from '#Controllers/user.controller.js';
+import { loginUser, logoutUser, registerUser } from '#Controllers/user.controller.js';
+import userAuthCheck from '#Middlewares/userAuth.js';
 
 const userRouter = Router();
+const baseRouter = Router();
 
-userRouter.post('/register', registerUser);
-userRouter.post('/login', loginUser);
-// SampleRouter.get('/getAll', getAllSamples);
-// SampleRouter.get('/get/:sampleId', getSampleById);
-// SampleRouter.put('/update', updateSample);
-// SampleRouter.delete('/delete/:sampleId', deleteSample);
+/* Add Routes */
+baseRouter.post('/register', registerUser);
+baseRouter.post('/login', loginUser);
+baseRouter.post('/logout', userAuthCheck, logoutUser);
+// baseRouter.get('/getAll', getAllSamples);
+// baseRouter.get('/get/:sampleId', getSampleById);
+// baseRouter.put('/update', updateSample);
+// baseRouter.delete('/delete/:sampleId', deleteSample);
+
+/* Add Middlewares */
+userRouter.use('/users', baseRouter);
 
 export default userRouter;

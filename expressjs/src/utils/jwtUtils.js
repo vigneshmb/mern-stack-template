@@ -10,7 +10,7 @@ export const createToken = (userData = {}) =>
   });
 
 export const verifyToken = (token) => {
-  jwt.verify(
+  const decryptValue = jwt.verify(
     token,
     jwtTokenSecret,
     { algorithms: [jwtEncrpAlgo] },
@@ -22,4 +22,6 @@ export const verifyToken = (token) => {
       return userData;
     },
   );
+
+  return decryptValue
 };

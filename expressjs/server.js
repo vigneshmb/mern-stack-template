@@ -1,10 +1,9 @@
-import express, { json,Router } from 'express';
+import express, { json, Router } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 
 import sampleRouter from '#Routes/sample.routes.js';
 import connectDB from '#Database/mongoDB.js';
-import userAuthCheck from '#Middlewares/userAuth.js';
 import userRouter from '#Routes/user.routes.js';
 
 const server = new express();
@@ -17,12 +16,11 @@ server.use(json());
 const apiRouter_v1 = Router();
 
 /* adding routes */
-
-apiRouter_v1.use('/samples', sampleRouter);
-apiRouter_v1.use('/users', userRouter);
+apiRouter_v1.use(sampleRouter);
+apiRouter_v1.use(userRouter);
 
 /* adding routes with middleWare */
-// indexRouter.use('/samples', userAuthCheck, sampleRouter);
+// apiRouter_v1.use('/samples', userAuthCheck, sampleRouter);
 server.use('/api/v1', apiRouter_v1);
 
 /* adding default GET endpoint */
