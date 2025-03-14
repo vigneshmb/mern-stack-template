@@ -104,11 +104,11 @@ const logoutUser = async (req, res) => {
   try {
     let { email } = req?.userData;
     const dbData = await getUserByEmail(email);
-    let { _id,jwtTokens } = dbData;
+    let { _id, jwtTokens } = dbData;
     const fullToken = req?.headers?.['authorization'] || null;
     const jwtToken = fullToken.split(' ')[1];
 
-    let newTokens = jwtTokens.filter(token=>token !== jwtToken);
+    let newTokens = jwtTokens.filter((token) => token !== jwtToken);
     await userModel.findByIdAndUpdate(_id, { jwtTokens: newTokens });
     return res.status(200).send('Logout successful');
   } catch (error) {
@@ -123,29 +123,33 @@ const changeResetPassword = async (req, res) => {
       const msg = populateJoiMessage(error);
       return res.status(400).send(msg);
     }
-    const userEmail = req.body.emailUsername;
+    const { userEmail, password, newPassword } = req.body;
     const dbData = await getUserByEmail(userEmail);
 
     if (!(dbData && Object.keys(dbData).length > 0)) {
       return res.status(401).send('Account is not registered');
     }
 
-    let loginData = req.body;
-    let passwdCheck = await checkHash(loginData?.password, dbData?.password);
-    if (!passwdCheck) {
-      return res.status(401).send('Password is wrong');
+    const isReset = newPassword && newPassword != '';
+    if (isReset) {
+      //write Reset password here
+    } else {
+      let passwdCheck = await checkHash(password, dbData?.password);
+      if (!passwdCheck) {
+        return res.status(401).send('Password is wrong');
+      }
     }
 
     let {
       _id,
-      firstName,
-      middleName,
-      lastName,
-      dob,
-      email,
-      username,
       jwtTokens: newTokens,
+      newPasswords:oldPasswords
     } = dbData;
+    let passwdCheck = await checkHash(loginData?.password, dbData?.password);
+
+
+    let hashPwd = await generateHash(userData?.password);
+
     const jwtToken = createToken({
       firstName,
       middleName,

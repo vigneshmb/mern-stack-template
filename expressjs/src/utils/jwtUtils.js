@@ -10,18 +10,20 @@ export const createToken = (userData = {}) =>
   });
 
 export const verifyToken = (token) => {
-  const decryptValue = jwt.verify(
+  let decryptValue = '';
+  jwt.verify(
     token,
     jwtTokenSecret,
     { algorithms: [jwtEncrpAlgo] },
     (err, userData) => {
       if (err && err?.name === 'TokenExpiredError') {
-        return 'JWT Expired';
+        decryptValue = 'JWT Expired';
       }
-
-      return userData;
+      decryptValue = userData;
     },
   );
 
-  return decryptValue
+  console.log(decryptValue);
+
+  return decryptValue;
 };
