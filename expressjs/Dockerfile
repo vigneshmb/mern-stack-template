@@ -1,8 +1,11 @@
-FROM node:22.14.0
+FROM node:22.14.0 AS build
 WORKDIR /app
 
-COPY package*.json /app/
-COPY src /app/
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile
 
-RUN npm install
-CMD ["npm","run", "dev"]
+COPY . ./
+RUN npm run build
+
+EXPOSE 4567
+CMD ["node","dist/prod.js"]
