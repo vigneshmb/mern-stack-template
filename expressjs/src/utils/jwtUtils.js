@@ -23,5 +23,5 @@ export const verifyToken = (token) => {
     },
   );
 
-  return decryptValue
+  return decryptValue;
 };

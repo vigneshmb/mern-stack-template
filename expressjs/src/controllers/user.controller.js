@@ -104,11 +104,11 @@ const logoutUser = async (req, res) => {
   try {
     let { email } = req?.userData;
     const dbData = await getUserByEmail(email);
-    let { _id,jwtTokens } = dbData;
+    let { _id, jwtTokens } = dbData;
     const fullToken = req?.headers?.['authorization'] || null;
     const jwtToken = fullToken.split(' ')[1];
 
-    let newTokens = jwtTokens.filter(token=>token !== jwtToken);
+    let newTokens = jwtTokens.filter((token) => token !== jwtToken);
     await userModel.findByIdAndUpdate(_id, { jwtTokens: newTokens });
     return res.status(200).send('Logout successful');
   } catch (error) {

@@ -1,4 +1,4 @@
-import Boards from "#Components/board.jsx";
+import Boards from '#Components/board.jsx';
 
 export default function BoardListPage() {
   return (

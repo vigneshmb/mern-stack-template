@@ -26,4 +26,3 @@ export const changeResetPasswordSchema = Joi.object({
   password: Joi.string().required().label('Password'),
   newPassword: Joi.string().optional().label('Password'),
 });
-

@@ -1,3 +1,3 @@
-import axiosWrap from "./axiosWrap";
+import axiosWrap from './axiosWrap';
 
-export const getAllSamples =()=> axiosWrap.get('/samples/getAll');
+export const getAllSamples = () => axiosWrap.get('/samples/getAll');

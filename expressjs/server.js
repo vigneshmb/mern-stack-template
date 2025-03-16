@@ -1,6 +1,8 @@
 import express, { json, Router } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import { join,dirname } from 'path';
+import {fileURLToPath} from 'url';
 
 import sampleRouter from '#Routes/sample.routes.js';
 import connectDB from '#Database/mongoDB.js';
@@ -8,6 +10,10 @@ import userRouter from '#Routes/user.routes.js';
 
 const server = new express();
 const appPort = process.env.APP_PORT || '4567';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+console.log(__dirname);
 
 /* adding middlewares */
 server.use(cors());

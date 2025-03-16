@@ -6,10 +6,17 @@
     "configurations": [
         {
             "type": "node-terminal",
-            "name": "Run Script: dev",
+            "name": "Run Backend - ExpressJS Server",
             "request": "launch",
             "command": "npm run dev",
             "cwd": "${workspaceFolder}\\expressjs"
+        },
+        {
+            "type": "node-terminal",
+            "name": "Run Frontend - ReactJS",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}\\reactjs"
         }
     ]
 }
