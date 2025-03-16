@@ -1,7 +1,7 @@
-import { BrowserRouter } from "react-router";
+import { BrowserRouter } from 'react-router';
 
-import "./App.css";
-import AppRoutes from "#Routes/Routes.jsx";
+import './App.css';
+import AppRoutes from '#Routes/Routes.jsx';
 
 function App() {
   return (

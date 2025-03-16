@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./reactjs
+    ports:
+      - 1234:80
+    environment:
+      API_BASEURL: http://localhost:4567/api/v1
+  backend: 
+    build: ./expressjs
+    ports: 
+      - 4567:4567
+    environment:
+      DB_CONN_STRING: "mongodb://localhost:27017/mern-stack-template"
+      APP_PORT: "4567"
+      TOKEN_SKY: "VanityIsMyFavouriteSin"
+      TOKEN_ALGO: "HS384"

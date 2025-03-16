@@ -20,6 +20,6 @@ baseRouter.put('/update', updateSample);
 baseRouter.delete('/delete/:sampleId', deleteSample);
 
 /* Add Middlewares */
-sampleRouter.use('/samples',userAuthCheck,baseRouter);
+sampleRouter.use('/samples', userAuthCheck, baseRouter);
 
 export default sampleRouter;

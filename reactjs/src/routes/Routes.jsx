@@ -1,7 +1,7 @@
-import { Route, Routes } from "react-router";
-import App from "../App";
-import HomePage from "#Pages/HomePage.jsx";
-import BoardListPage from "#Pages/BoardListPage.jsx";
+import { Route, Routes } from 'react-router';
+import App from '../App';
+import HomePage from '#Pages/HomePage.jsx';
+import BoardListPage from '#Pages/BoardListPage.jsx';
 
 export default function AppRoutes() {
   return (

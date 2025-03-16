@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pretty_check": "prettier --check .",
+    "pretty_write": "prettier --write ."
   },
   "dependencies": {
     "@tailwindcss/vite": "4.0.6",
@@ -29,6 +31,7 @@
     "eslint-plugin-react-hooks": "5.0.0",
     "eslint-plugin-react-refresh": "0.4.18",
     "globals": "15.14.0",
+    "prettier": "^3.5.3",
     "vite": "6.1.0"
   },
   "imports": {
