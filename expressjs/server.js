@@ -1,8 +1,8 @@
 import express, { json, Router } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { join,dirname } from 'path';
-import {fileURLToPath} from 'url';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import sampleRouter from '#Routes/sample.routes.js';
 import connectDB from '#Database/mongoDB.js';
