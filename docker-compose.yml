@@ -1,18 +1,32 @@
-version: "3.8"
-
 services:
   frontend:
     build: ./reactjs
     ports:
-      - 1234:80
+      - 5123:80
     environment:
       API_BASEURL: http://localhost:4567/api/v1
-  backend: 
+
+  backend:
     build: ./expressjs
-    ports: 
-      - 4567:4567
+    ports:
+      - 5456:4567
     environment:
-      DB_CONN_STRING: "mongodb://localhost:27017/mern-stack-template"
+      DB_CONN_STRING: "mongodb://mongo:5789/mern-stack-template"
       APP_PORT: "4567"
       TOKEN_SKY: "VanityIsMyFavouriteSin"
       TOKEN_ALGO: "HS384"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mern-mongo
+    ports:
+      - 5789:27017
+    volumes:
+      - mongodb_mst:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: mern-stack-template
+
+volumes:
+  mongodb_mst:
