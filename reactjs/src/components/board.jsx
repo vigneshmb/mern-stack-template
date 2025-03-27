@@ -27,8 +27,6 @@ export default function Boards() {
 }
 
 const BoardItem = ({ board }) => {
-  // console.log(board);
-
   return (
     <div className="flex flex-col items-stretch gap-4 bg-zinc-900 dark:bg-amber-100 rounded-2xl p-2">
       <h3 className="text-lg/tight font-medium text-gray-900">
@@ -42,10 +40,3 @@ const BoardItem = ({ board }) => {
     </div>
   );
 };
-
-// BoardItem.propTypes = {
-//   board: PropTypes.object({
-//     title: PropTypes.string.isRequired,
-//     description: PropTypes.number,
-//   }),
-// };
