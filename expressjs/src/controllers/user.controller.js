@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
     newTokens.length > 5 && newTokens.shift();
     await userModel.findByIdAndUpdate(_id, { jwtTokens: newTokens });
 
-    res.setHeader('jwtToken', jwtToken);
+    res.setHeader('Authorization', jwtToken);
     return res.status(200).send('Login successful');
   } catch (error) {
     console.log(error);

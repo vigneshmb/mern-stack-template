@@ -16,7 +16,9 @@ const __dirname = dirname(__filename);
 console.log(__dirname);
 
 /* adding middlewares */
-server.use(cors());
+server.use(cors({
+  exposedHeaders: 'Authorization',
+}));
 server.use(json());
 
 const apiRouter_v1 = Router();
