@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
-import { getAllSamples } from '#Api/samples.js';
+import { getAlltasks } from '#Api/tasks.js';
 import { useEffect, useState } from 'react';
 
 export default function Boards() {
   const [boardData, setBoardData] = useState(null);
   useEffect(() => {
-    getAllSamples().then((res) => setBoardData(res.data || [{}]));
+    getAlltasks().then((res) => setBoardData(res.data || [{}]));
   }, []);
 
   return (

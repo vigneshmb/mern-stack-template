@@ -5,6 +5,6 @@ const axiosWrap = axios.create({ baseURL });
 
 const token = localStorage.getItem("authJWT") || "";
 
-axiosWrap.defaults.headers.common["Authorization"] = token;
+axiosWrap.defaults.headers.common["authorization"] = `Bearer ${token}`;
 
 export default axiosWrap;

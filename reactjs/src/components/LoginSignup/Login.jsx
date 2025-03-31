@@ -1,6 +1,6 @@
+import axiosWrap from '#Api/axiosWrap.js';
 import { loginUser } from '#Api/users.js';
 import { ThemedInput } from '#Components/ThemedInputs.jsx';
-import useDarkMode from '#Hooks/useDarkMode.jsx';
 import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
 import useStorage from '#Hooks/useStorage.jsx';
 import { checkEmail, checkPassword } from '#Utils/appConstants.js';
@@ -76,8 +76,7 @@ export default function Login() {
       })
         .then((resp) => {
           const jwt = resp.headers['authorization'];
-          console.log(jwt);
-          setLocal('authJWT', jwt);
+          localStorage.setItem('authJWT', jwt);
         })
         .catch((err) => {
           console.log(err);

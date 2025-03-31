@@ -4,6 +4,8 @@ import HomePage from '#Pages/HomePage.jsx';
 import BoardListPage from '#Pages/BoardListPage.jsx';
 import LoginSignUpPage from '#Pages/LoginSignupPage.jsx';
 
+const RedirectByToken = () => {};
+
 export default function AppRoutes() {
   return (
     <Routes>
