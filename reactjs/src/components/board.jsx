@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
-import { getAllSamples } from '#Api/samples.js';
+import { getAlltasks } from '#Api/tasks.js';
 import { useEffect, useState } from 'react';
 
 export default function Boards() {
   const [boardData, setBoardData] = useState(null);
   useEffect(() => {
-    getAllSamples().then((res) => setBoardData(res.data || [{}]));
+    getAlltasks().then((res) => setBoardData(res.data || [{}]));
   }, []);
 
   return (
@@ -14,8 +14,6 @@ export default function Boards() {
       {boardData && boardData.length > 0 ? (
         <>
           {boardData.map((board) => {
-            console.log(board);
-
             return <BoardItem board={board} key={board._id} />;
           })}
         </>
@@ -27,8 +25,6 @@ export default function Boards() {
 }
 
 const BoardItem = ({ board }) => {
-  // console.log(board);
-
   return (
     <div className="flex flex-col items-stretch gap-4 bg-zinc-900 dark:bg-amber-100 rounded-2xl p-2">
       <h3 className="text-lg/tight font-medium text-gray-900">
@@ -42,10 +38,3 @@ const BoardItem = ({ board }) => {
     </div>
   );
 };
-
-// BoardItem.propTypes = {
-//   board: PropTypes.object({
-//     title: PropTypes.string.isRequired,
-//     description: PropTypes.number,
-//   }),
-// };

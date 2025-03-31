@@ -11,7 +11,7 @@ const getWindowVal = (slot) => windowVal[slot] || 1000;
 export const userRouteLimiter = rateLimit({
   windowMs: 15 * getWindowVal('min'),
   limit: 5,
-  legacyHeaders: true,
+  legacyHeaders: false,
   handler: (req, res, next, options) => {
     return res.status(429).send('Yaru Neenu.? illi yen maduthidhaya.?');
   },

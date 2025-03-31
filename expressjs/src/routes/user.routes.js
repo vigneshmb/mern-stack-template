@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
 import {
+  registerUser,
   loginUser,
   logoutUser,
-  registerUser,
+  changeResetPassword,
+  getUserDetails,
 } from '#Controllers/user.controller.js';
 import userAuthCheck from '#Middlewares/userAuth.js';
 import {
@@ -26,11 +28,21 @@ baseRouter.post(
   getRouteSlowdown(5, 'min', 2, 1),
   loginUser,
 );
-baseRouter.post('/logout', userAuthCheck, logoutUser);
-// baseRouter.get('/getAll', getAllSamples);
-// baseRouter.get('/get/:sampleId', getSampleById);
-// baseRouter.put('/update', updateSample);
-// baseRouter.delete('/delete/:sampleId', deleteSample);
+baseRouter.get('/logout', userAuthCheck, logoutUser);
+baseRouter.post(
+  '/changePassword',
+  getRouteLimiter(5, 'min', 5),
+  getRouteSlowdown(5, 'min', 2, 1),
+  userAuthCheck,
+  changeResetPassword,
+);
+baseRouter.post(
+  '/resetPassword',
+  getRouteLimiter(5, 'min', 5),
+  getRouteSlowdown(5, 'min', 2, 1),
+  changeResetPassword,
+);
+baseRouter.get('/getMe',userAuthCheck, getUserDetails);
 
 /* Add Middlewares */
 userRouter.use('/users', baseRouter);
