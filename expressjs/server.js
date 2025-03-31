@@ -1,10 +1,10 @@
 import express, { json, Router } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { join, dirname } from 'path';
+import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import sampleRouter from '#Routes/sample.routes.js';
+import taskRouter from '#Routes/task.routes.js';
 import connectDB from '#Database/mongoDB.js';
 import userRouter from '#Routes/user.routes.js';
 
@@ -20,15 +20,16 @@ server.use(cors({
   exposedHeaders: 'Authorization',
 }));
 server.use(json());
+server.disable('x-powered-by');
 
 const apiRouter_v1 = Router();
 
 /* adding routes */
-apiRouter_v1.use(sampleRouter);
+apiRouter_v1.use(taskRouter);
 apiRouter_v1.use(userRouter);
 
 /* adding routes with middleWare */
-// apiRouter_v1.use('/samples', userAuthCheck, sampleRouter);
+// apiRouter_v1.use('/tasks', userAuthCheck, taskRouter);
 server.use('/api/v1', apiRouter_v1);
 
 /* adding default GET endpoint */
