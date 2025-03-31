@@ -13,7 +13,6 @@ const appPort = process.env.APP_PORT || '4567';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-console.log(__dirname);
 
 /* adding middlewares */
 server.use(cors({

@@ -14,8 +14,6 @@ export default function Boards() {
       {boardData && boardData.length > 0 ? (
         <>
           {boardData.map((board) => {
-            console.log(board);
-
             return <BoardItem board={board} key={board._id} />;
           })}
         </>

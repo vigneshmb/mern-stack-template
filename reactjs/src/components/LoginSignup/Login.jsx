@@ -27,7 +27,6 @@ export default function Login() {
   }, []);
 
   const handleValidation = (fieldName, fieldvalue) => {
-    console.log(fieldName, fieldvalue);
     let errorMsg = '';
     if (fieldvalue === '') {
       errorMsg = 'Please enter valid data';
@@ -87,8 +86,6 @@ export default function Login() {
         error: 'Please try again later',
       });
     }
-
-    console.log(userData, formErrors, noErrors);
   };
 
   const { email, password } = userData;
