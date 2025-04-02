@@ -13,7 +13,11 @@ export const userRouteLimiter = rateLimit({
   limit: 5,
   legacyHeaders: false,
   handler: (req, res, next, options) => {
-    return res.status(429).send('Yaru Neenu.? illi yen maduthidhaya.?');
+    return res.status(429).send({
+      error: [],
+      msg: 'Yaru Neenu.? illi yen maduthidhaya.?',
+      data: null,
+    });
   },
 });
 
@@ -29,7 +33,11 @@ export const getRouteLimiter = (
     limit: allowReqs,
     legacyHeaders: true,
     handler: (req, res, next, options) => {
-      return res.status(resCode).send(resMsg);
+      return res.status(resCode).send({
+        error: [],
+        msg: resMsg,
+        data: null,
+      });
     },
   });
 };

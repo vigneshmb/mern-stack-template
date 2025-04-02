@@ -5,6 +5,7 @@ import {
   deleteUnwantedKeys,
   getRequiredFields,
 } from '#Utils/arrayObjectUtils.js';
+import { populateJoiMessage } from '#Utils/joiUtils.js';
 import {
   createTaskSchema,
   getTaskByIDSchema,
@@ -29,7 +30,7 @@ const createTask = async (req, res) => {
   try {
     const { error } = createTaskSchema.validate(req.body);
     if (error) {
-      const msg = error?.details?.[0]?.message || 'The values are not allowed';
+      const msg = populateJoiMessage(error);
       return res.status(404).send({
         error: [],
         msg,
@@ -96,7 +97,7 @@ const getTaskById = async (req, res) => {
   try {
     const { error } = getTaskByIDSchema.validate(req.params);
     if (error) {
-      const msg = error?.details?.[0]?.message || 'The values are not allowed';
+      const msg = populateJoiMessage(error);
       return res.status(404).send({
         error: [],
         msg,
@@ -141,7 +142,7 @@ const updateTask = async (req, res) => {
     const { body, query } = req;
     const { error } = updateTaskByIDSchema.validate({ body, query });
     if (error) {
-      const msg = error?.details?.[0]?.message || 'The values are not allowed';
+      const msg = populateJoiMessage(error);
       return res.status(404).send({
         error: [],
         msg,
@@ -183,7 +184,7 @@ const deleteTask_Hard = async (req, res) => {
   try {
     const { error } = getTaskByIDSchema.validate(req.params);
     if (error) {
-      const msg = error?.details?.[0]?.message || 'The values are not allowed';
+      const msg = populateJoiMessage(error);
       return res.status(404).send({
         error: [],
         msg,
@@ -219,7 +220,7 @@ const deleteTask_Soft = async (req, res) => {
   try {
     const { error } = getTaskByIDSchema.validate(req.params);
     if (error) {
-      const msg = error?.details?.[0]?.message || 'The values are not allowed';
+      const msg = populateJoiMessage(error);
       return res.status(404).send({
         error: [],
         msg,
