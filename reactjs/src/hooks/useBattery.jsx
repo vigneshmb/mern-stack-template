@@ -10,8 +10,6 @@ const batteryDefault = {
 };
 
 function batteryReducer(state, action) {
-  console.log(action);
-
   const { type, payload } = action;
 
   if (type === 'change_level') {
@@ -52,7 +50,8 @@ export default function useBatteryStatus() {
   const [battery, updateBattery] = useReducer(batteryReducer, batteryDefault);
 
   useEffect(() => {
-    const updateBatteryValues = (batteryObj) => {
+    let batteryObj = null;
+    const updateBatteryValues = () => {
       const { level, charging, dischargingTime, chargingTime } = batteryObj;
       updateBattery({ type: 'change_level', payload: { level } });
       updateBattery({ type: 'charging_status', payload: { charging } });
@@ -63,22 +62,24 @@ export default function useBatteryStatus() {
       updateBattery({ type: 'update_charTime', payload: { chargingTime } });
     };
 
-    const batteryStatus = navigator.getBattery().then((batteryObj) => {
-      if (!batteryObj) {
+    navigator.getBattery().then((batteryResp) => {
+      if (!batteryResp) {
         updateBattery('read_error');
         return null;
       }
-      updateBatteryValues(batteryObj);
-      return batteryObj;
+      batteryObj = batteryResp;
+      updateBatteryValues();
+      batteryObj.addEventListener('levelChange', (e) => {
+        updateBatteryValues(e);
+      });
     });
 
-    batteryStatus.addEventListener('levelChange', () => {
-      updateBatteryValues(batteryStatus);
-    });
     return () => {
-      batteryStatus.removeEventListener('levelChange', () => {
-        updateBatteryValues(batteryStatus);
-      });
+      if (batteryObj) {
+        batteryObj.removeEventListener('levelChange', (e) => {
+          updateBatteryValues(e);
+        });
+      }
     };
   }, []);
 

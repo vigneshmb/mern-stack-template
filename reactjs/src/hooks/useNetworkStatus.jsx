@@ -3,7 +3,7 @@ import { useEffect, useReducer } from 'react';
 const networkStatus = {
   'slow-2g': 'low',
   '2g': 'low',
-  '3g': '',
+  '3g': 'low',
   '4g': 'high',
 };
 
@@ -17,8 +17,6 @@ const networkDefault = {
 };
 
 function networkReducer(state, action) {
-  console.log(action);
-
   const { type, payload } = action;
 
   if (type === 'change_online') {
@@ -60,9 +58,10 @@ export default function useNetworkStatus() {
   const [network, updateNetwork] = useReducer(networkReducer, networkDefault);
 
   useEffect(() => {
-    const updateNetworkValues = (connection) => {
+    let networkObj=null;
+    const updateNetworkValues = () => {
       const online = navigator.onLine;
-      const { downlink, effectiveType, downlinkMax, type } = connection;
+      const { downlink, effectiveType, downlinkMax, type } = networkObj;
 
       updateNetwork({ type: 'change_online', payload: { online } });
       updateNetwork({ type: 'downSpeed', payload: { downlink } });
@@ -71,13 +70,13 @@ export default function useNetworkStatus() {
       updateNetwork({ type: 'connType', payload: { type } });
     };
 
-    const connectionObj = navigator.connection;
-    !connectionObj ? updateNetwork('read_error') : updateNetworkValues(connectionObj);
-
-    navigator.connection.addEventListener('change', updateNetworkValues);
+    networkObj = navigator.connection;
+    // !connectionObj ? updateNetwork('read_error') :updateNetworkValues(connectionObj);
+    updateNetworkValues();
+    networkObj.addEventListener('change', updateNetworkValues);
     
     return () => {
-      navigator.connection.removeEventListener('change', updateNetworkValues);
+        networkObj.removeEventListener('change', updateNetworkValues);
     };
   }, []);
 
