@@ -1,13 +1,21 @@
 import PropTypes from 'prop-types';
 
-import { getAlltasks } from '#Api/tasks.js';
+import { getAlltasks } from '#Api/tasksApi.js';
 import { useEffect, useState } from 'react';
+import useNetworkStatus from '#Hooks/useNetworkStatus.jsx';
+import useBatteryStatus from '#Hooks/useBattery.jsx';
 
 export default function Boards() {
   const [boardData, setBoardData] = useState(null);
   useEffect(() => {
-    getAlltasks().then((res) => setBoardData(res.data || [{}]));
+    getAlltasks().then((resp) => setBoardData(resp.data || [{}]));
   }, []);
+
+  const network = useNetworkStatus();
+  const battery = useBatteryStatus();
+  console.log(network,battery);
+  
+
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 m-2">

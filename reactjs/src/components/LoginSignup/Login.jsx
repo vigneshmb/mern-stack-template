@@ -1,26 +1,24 @@
 import axiosWrap from '#Api/axiosWrap.js';
-import { loginUser } from '#Api/users.js';
+import { loginUser } from '#Api/usersApi.js';
 import { ThemedInput } from '#Components/ThemedInputs.jsx';
 import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
 import useStorage from '#Hooks/useStorage.jsx';
 import { checkEmail, checkPassword } from '#Utils/appConstants.js';
 import { useState } from 'react';
 import { toast } from 'react-fox-toast';
+import { useNavigate } from 'react-router';
 
 export default function Login() {
   const [userData, setUserData] = useState({
     email: '',
     password: '',
-    firstName: '',
-    middlename: '',
-    lastName: '',
   });
   const [formErrors, setFormErrors] = useState({
     email: '',
     password: '',
-    firstName: '',
   });
   const { setLocal } = useStorage();
+  const navigatePage = useNavigate();
 
   useEffectOnlyMount(() => {
     toast.warning('Please Login to proceed further');
@@ -67,14 +65,15 @@ export default function Login() {
     if (!noErrors) {
       toast.error('Please enter valid data');
       return null;
-    } else {
-      const { email, password } = userData;
-      const loginPromise = loginUser({
-        emailUsername: email,
-        password,
+    }
+    const { email, password } = userData;
+    const loginPromise = loginUser({
+      emailUsername: email,
+      password,
       })
         .then((resp) => {
           const jwt = resp.headers['authorization'];
+          axiosWrap.defaults.headers.common['authorization'] = `Bearer ${jwt}`;
           localStorage.setItem('authJWT', jwt);
         })
         .catch((err) => {
@@ -82,10 +81,13 @@ export default function Login() {
         });
       toast.promise(loginPromise, {
         loading: 'Peeking into our registry...',
-        success: 'User Logged in successfully!',
-        error: 'Please try again later',
-      });
-    }
+        success: (data) => {
+          console.log(data, '123');
+          return `${data.msg}`;
+        },
+        error: () => 'Please try again later',
+      },
+    );
   };
 
   const { email, password } = userData;
