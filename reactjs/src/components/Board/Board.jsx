@@ -53,8 +53,8 @@ const BoardItem1 = ({ board, index }) => {
   const name = `checkbox${index}`;
 
   return (
-    <>
-      <ThemedCheckBox name={name} title={title} description={description} />
-    </>
+    <div className="my-2 flex flex-col items-start divide-y divide-gray-200 bg-indigo-300 dark:bg-amber-300 rounded border-2 p-1">
+      <ThemedCheckBox name={name} title={title} description={description} status={isChecked} />
+    </div>
   );
 };
