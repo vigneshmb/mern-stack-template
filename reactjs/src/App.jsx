@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router';
-import { ToastContainer } from "react-fox-toast";
+import { ToastContainer } from "react-hot-toast";
 
 
 import './App.css';

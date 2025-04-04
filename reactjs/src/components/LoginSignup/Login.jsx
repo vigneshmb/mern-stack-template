@@ -1,11 +1,11 @@
 import axiosWrap from '#Api/axiosWrap.js';
 import { loginUser } from '#Api/usersApi.js';
-import { ThemedInput } from '#Components/ThemedInputs.jsx';
+import { ThemedInput } from '#Components/ThemedInputs/ThemedInputs.jsx';
+import { UserContext } from '#Contexts/userContext.jsx';
 import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
-import useStorage from '#Hooks/useStorage.jsx';
 import { checkEmail, checkPassword } from '#Utils/appConstants.js';
-import { useState } from 'react';
-import { toast } from 'react-fox-toast';
+import { useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 
 export default function Login() {
@@ -17,12 +17,8 @@ export default function Login() {
     email: '',
     password: '',
   });
-  const { setLocal } = useStorage();
   const navigatePage = useNavigate();
-
-  useEffectOnlyMount(() => {
-    toast.warning('Please Login to proceed further');
-  }, []);
+  const { updateUserData } = useContext(UserContext);
 
   const handleValidation = (fieldName, fieldvalue) => {
     let errorMsg = '';
@@ -67,27 +63,27 @@ export default function Login() {
       return null;
     }
     const { email, password } = userData;
-    const loginPromise = loginUser({
+    loginUser({
       emailUsername: email,
       password,
-      })
-        .then((resp) => {
-          const jwt = resp.headers['authorization'];
+    })
+      .then((resp) => {
+        const { status, msg, data, headers } = resp;
+        if (status === 200) {
+          const jwt = headers['authorization'];
           axiosWrap.defaults.headers.common['authorization'] = `Bearer ${jwt}`;
           localStorage.setItem('authJWT', jwt);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      toast.promise(loginPromise, {
-        loading: 'Peeking into our registry...',
-        success: (data) => {
-          console.log(data, '123');
-          return `${data.msg}`;
-        },
-        error: () => 'Please try again later',
-      },
-    );
+          toast.success(`${resp.msg}`);
+          updateUserData(true, data?.[0]);
+          navigatePage('/boards');
+        } else {
+          throw Error(msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err}`);
+      });
   };
 
   const { email, password } = userData;

@@ -1,15 +1,9 @@
+import { ThemedButton } from '#Components/ThemedInputs/ThemedButton.jsx';
 import useBooleanToggle from '#Hooks/useBooleanToggle.jsx';
-import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
-import { toast } from 'react-fox-toast';
 import Login from './Login';
-import { ThemedButton } from '#Components/ThemedInputs.jsx';
 
 export default function LoginSignUp() {
   const [loginSignup, toggleLoginSignup] = useBooleanToggle(true);
-
-  useEffectOnlyMount(() => {
-    toast.warning('Please Login to proceed further');
-  }, []);
 
   const buttonStyle = `
   p-3
