@@ -1,19 +1,20 @@
-import { HeaderPublic } from './HeaderFooter';
+import { Outlet } from 'react-router';
+import { HeaderPrivate, HeaderPublic } from './HeaderFooter';
 
-export const PublicLayout=()=> {
+export const PublicLayout = () => {
   return (
-    <div>
+    <>
       <HeaderPublic />
-    </div>
+      <Outlet/>
+    </>
   );
-}
+};
 
-
-export default function PrivateLayout(params) {
-    return (
-      <div>
-        {/* <Header /> */}
-      </div>
-    );
-  }
-  
+export const PrivateLayout = () => {
+  return (
+    <>
+      <HeaderPrivate />
+      <Outlet/>
+    </>
+  );
+};

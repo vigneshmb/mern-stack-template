@@ -18,6 +18,7 @@ export const checkObjectLength = (value) => {
 };
 
 export const deleteUnwantedKeys = (objectVal, neededKeysArr) => {
-  for (let key in objectVal) if (!neededKeysArr.includes(key)) delete objectVal[key];
+  for (let key in objectVal)
+    if (!neededKeysArr.includes(key)) delete objectVal[key];
   return objectVal;
 };

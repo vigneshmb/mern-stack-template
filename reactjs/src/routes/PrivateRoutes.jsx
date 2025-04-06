@@ -1,16 +1,19 @@
-import { Loader } from '#Components/Layouts/Loader.jsx';
+import { Suspense, useContext, lazy } from 'react';
+import { PrivateLayout } from '#Components/Layouts/Layout.jsx';
+import { ThemedLoader } from '#Components/Layouts/Loader.jsx';
 import { UserContext } from '#Contexts/userContext.jsx';
-import BoardListPage from '#Pages/BoardListPage.jsx';
-import HomePage from '#Pages/HomePage.jsx';
-import { useContext } from 'react';
-import { Route, Navigate, Outlet, useLocation } from 'react-router';
+
+const HomePage = lazy(() => import('#Pages/HomePage.jsx'));
+const BoardListPage = lazy(() => import('#Pages/BoardListPage.jsx'));
+
+import { Navigate, Outlet, Route, useLocation } from 'react-router';
 
 const RedirectToLogin = () => {
   const { isAuthenticated, isUserLoading } = useContext(UserContext);
   let location = useLocation();
 
   if (isUserLoading) {
-    return <Loader />;
+    return <ThemedLoader />;
   }
 
   if (!isAuthenticated) {
@@ -20,13 +23,31 @@ const RedirectToLogin = () => {
   return <Outlet />;
 };
 
+// const LazyComponent = ({ children }) => {
+//   return <Suspense fallback={<ThemedLoader />}>{children}</Suspense>;
+// };
+
 export default function PrivateRoutes() {
   return (
-    <>
+    <Route element={<PrivateLayout />}>
       <Route element={<RedirectToLogin />}>
-        <Route path="boards" element={<BoardListPage />} />
-        <Route path="home" element={<HomePage />} />
+        <Route
+          path="boards"
+          element={
+            // <LazyComponent>
+            <BoardListPage />
+            // </LazyComponent>
+          }
+        />
+        <Route
+          path="home"
+          element={
+            // <LazyComponent>
+            <BoardListPage />
+            // </LazyComponent>
+          }
+        />
       </Route>
-    </>
+    </Route>
   );
 }

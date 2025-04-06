@@ -1,4 +1,5 @@
-import { Loader } from '#Components/Layouts/Loader.jsx';
+import { PublicLayout } from '#Components/Layouts/Layout.jsx';
+import { ThemedLoader } from '#Components/Layouts/Loader.jsx';
 import { UserContext } from '#Contexts/userContext.jsx';
 import LoginSignUpPage from '#Pages/LoginSignupPage.jsx';
 import NotFoundPage from '#Pages/NotFound.jsx';
@@ -11,7 +12,7 @@ const RedirectToHome = () => {
   let from = location.state?.from?.pathname || '/home';
 
   if (isUserLoading) {
-    return <Loader />;
+    return <ThemedLoader />;
   }
 
   if (isAuthenticated) {
@@ -23,10 +24,12 @@ const RedirectToHome = () => {
 export default function PublicRoutes() {
   return (
     <>
-      <Route element={<RedirectToHome redirectPath={location} />}>
-        <Route path="/login" element={<LoginSignUpPage />} />
+      <Route element={<PublicLayout />}>
+        <Route element={<RedirectToHome />}>
+          <Route path="/login" element={<LoginSignUpPage />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
-      <Route path="*" element={<NotFoundPage />} />
     </>
   );
 }
