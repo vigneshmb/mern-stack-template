@@ -25,10 +25,20 @@ export default function useStorage() {
     sessionStorage.setItem(key, JSON.stringify(value));
   };
 
+  const clearLocal = ()=>{
+    localStorage.clear()
+  }
+
+  const clearSession = ()=>{
+    sessionStorage.clear()
+  }
+
   return {
     getLocal,
     setLocal,
     getSession,
     setSession,
+    clearLocal,
+    clearSession,
   };
 }
