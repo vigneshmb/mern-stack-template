@@ -22,3 +22,11 @@ export const getObjEmptyValues = (obj, emptyFlag = null) => {
   });
   return newObj;
 };
+
+export const updateArrOfObjByKey = (arrObj, key, newData) => {
+  let newArrObj = [];
+  arrObj.forEach((ele) => {
+    newArrObj.push(newData[key] !== ele[key] ? ele : newData);
+  });
+  return newArrObj;
+};

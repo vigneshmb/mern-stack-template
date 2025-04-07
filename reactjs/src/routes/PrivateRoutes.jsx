@@ -1,11 +1,12 @@
-import { Suspense, useContext, lazy } from 'react';
 import { PrivateLayout } from '#Components/Layouts/Layout.jsx';
 import { ThemedLoader } from '#Components/Layouts/Loader.jsx';
 import { UserContext } from '#Contexts/userContext.jsx';
+import { lazy, useContext } from 'react';
 
 const HomePage = lazy(() => import('#Pages/HomePage.jsx'));
 const BoardListPage = lazy(() => import('#Pages/BoardListPage.jsx'));
 
+import TaskListPage from '#Pages/TaskListPage.jsx';
 import { Navigate, Outlet, Route, useLocation } from 'react-router';
 
 const RedirectToLogin = () => {
@@ -32,6 +33,14 @@ export default function PrivateRoutes() {
     <Route element={<PrivateLayout />}>
       <Route element={<RedirectToLogin />}>
         <Route
+          path="home"
+          element={
+            // <LazyComponent>
+            <HomePage />
+            // </LazyComponent>
+          }
+        />
+        <Route
           path="boards"
           element={
             // <LazyComponent>
@@ -40,10 +49,10 @@ export default function PrivateRoutes() {
           }
         />
         <Route
-          path="home"
+          path="tasklist"
           element={
             // <LazyComponent>
-            <BoardListPage />
+            <TaskListPage />
             // </LazyComponent>
           }
         />

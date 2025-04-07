@@ -1,88 +1,12 @@
 import { useState } from 'react';
 
-import {
-  createTask,
-  getAlltasks,
-  updateTaskStatusByID,
-} from '#Api/tasksApi.js';
-import { ThemedCheckBox } from '#Components/ThemedInputs/ThemedCheckbox.jsx';
+import { createTask, updateTaskStatusByID } from '#Api/tasksApi.js';
 import { ThemedInput } from '#Components/ThemedInputs/ThemedInputs.jsx';
-import { useTaskContext } from '#Contexts/TaskContext.jsx';
 import useBooleanToggle from '#Hooks/useBooleanToggle.jsx';
-import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
-import { getObjEmptyValues, updateArrOfObjByKey } from '#Utils/arrayObjectUtils.js';
+import { getObjEmptyValues } from '#Utils/arrayObjectUtils.js';
 import toast from 'react-hot-toast';
 
-export default function Boards() {
-  const { isTaskLoading, setIsTaskLoading, taskData, updateTaskData } =
-    useTaskContext();
-
-  useEffectOnlyMount(() => {
-    loadAlltasks();
-  }, []);
-
-  const loadAlltasks = async () => {
-    setIsTaskLoading.on();
-    await getAlltasks().then((resp) => updateTaskData(resp.data || [{}]));
-    setIsTaskLoading.off();
-  };
-
-  const loadTaskByID = (data) => {
-    console.log(data, taskData);
-    const newData = updateArrOfObjByKey(taskData,"_id",data)
-    updateTaskData(newData);
-  };
-
-  return (
-    <div className="m-3 p-2 flex">
-      <div className="w-1/2 mx-2">
-        <CreateTask reloadTasks={loadAlltasks} />
-      </div>
-      <div className="w-2/2 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mx-2 px-2 bg-slate-600 rounded-lg">
-        {!isTaskLoading && taskData && taskData.length > 0 ? (
-          <>
-            {taskData.map((board, index) => {
-              return (
-                <BoardItem1
-                  board={board}
-                  key={board._id}
-                  index={index}
-                  reloadTasks={loadTaskByID}
-                />
-              );
-            })}
-          </>
-        ) : (
-          <div>Loading</div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-const BoardItem = ({ board, index }) => {
-  const { title, isChecked, description } = board;
-  const name = `checkbox${index}`;
-
-  return (
-    <>
-      <div className="flex flex-col items-stretch gap-4 bg-indigo-400 dark:bg-amber-100 rounded-2xl p-2">
-        <h3 className="text-lg/tight font-medium text-gray-900">
-          {title || 'come here'}
-        </h3>
-
-        <p className="mt-0.5 text-gray-700">
-          {description ||
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptas distinctio nesciunt quas non animi.'}
-        </p>
-      </div>
-
-      <ThemedCheckBox name={name} title={title} description={description} />
-    </>
-  );
-};
-
-const BoardItem1 = ({ board, index, reloadTasks }) => {
+export const TaskItem = ({ board, index, reloadTasks }) => {
   const { title, isCompleted, description, _id } = board;
   const name = `checkbox${index}`;
   const [statusLoader, setStatusLoader] = useBooleanToggle(false);
@@ -142,7 +66,7 @@ const BoardItem1 = ({ board, index, reloadTasks }) => {
   );
 };
 
-const CreateTask = ({ reloadTasks }) => {
+export const CreateTask = ({ reloadTasks }) => {
   const [taskData, setTaskData] = useState({
     title: '',
     description: '',
@@ -257,12 +181,12 @@ const CreateTask = ({ reloadTasks }) => {
             name="login"
             type="submit"
             className={`
-              bg-indigo-600 text-zinc-100 dark:bg-amber-400 dark:text-slate-800
-              hover:bg-indigo-700
-              hover:text-zinc-100
-              dark:hover:bg-amber-400
-              dark:hover:text-slate-800
-              rounded p-2 m-1 hover:scale-105 duration-200 ease-in-out`}
+                bg-indigo-600 text-zinc-100 dark:bg-amber-400 dark:text-slate-800
+                hover:bg-indigo-700
+                hover:text-zinc-100
+                dark:hover:bg-amber-400
+                dark:hover:text-slate-800
+                rounded p-2 m-1 hover:scale-105 duration-200 ease-in-out`}
             onClick={handleAddTask}
             disabled={addTaskLoader}
           >

@@ -1,4 +1,4 @@
-export const ThemedCheckBox = ({ name, title, description, status }) => {
+export const ThemedCheckBox = ({ name, title, status }) => {
   return (
     <label htmlFor={name} className="inline-flex items-start gap-3">
       <input
@@ -7,17 +7,7 @@ export const ThemedCheckBox = ({ name, title, description, status }) => {
         id={name}
         checked={status}
       />
-      <div>
-        <span className="font-medium text-gray-700"> {title} </span>
-        {description != '' ? (
-          <p className="mt-0.5 text-sm text-gray-700">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea,
-            distinctio.
-          </p>
-        ) : (
-          ''
-        )}
-      </div>
+      {title}
     </label>
   );
 };

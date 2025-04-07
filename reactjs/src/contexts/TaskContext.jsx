@@ -1,5 +1,4 @@
 import { getAlltasks } from '#Api/tasksApi.js';
-import { getUser } from '#Api/usersApi.js';
 import useBooleanToggle from '#Hooks/useBooleanToggle.jsx';
 import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
 import { createContext, useContext, useState } from 'react';
