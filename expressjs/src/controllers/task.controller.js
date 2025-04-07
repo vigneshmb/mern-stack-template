@@ -9,6 +9,7 @@ import { populateJoiMessage } from '#Utils/joiUtils.js';
 import {
   createTaskSchema,
   getTaskByIDSchema,
+  patchTaskByIDSchema,
   updateTaskByIDSchema,
 } from '#Validators/task.validator.js';
 
@@ -260,6 +261,49 @@ const deleteTask_Soft = async (req, res) => {
   }
 };
 
+const updateTaskStatus = async (req, res) => {
+  try {
+    const { body, query } = req;
+    const { error } = patchTaskByIDSchema.validate({ body, query });
+    if (error) {
+      const msg = populateJoiMessage(error);
+      return res.status(404).send({
+        error: [],
+        msg,
+        data: null,
+      });
+    }
+    const userId = req?.userData?._id;
+    const taskId = req.query.taskId;
+    const findFilter = {
+      ...defFieldFilter,
+      userId,
+      _id: taskId,
+    };
+
+    const taskData = req.body;
+    const taskDbData = await taskModel
+      .findByIdAndUpdate({ ...findFilter }, taskData, {
+        returnDocument: 'after',
+        select: { ...defProjectFilter },
+      })
+      .lean();
+    return res.status(200).send({
+      error: null,
+      msg: checkObjectLength(taskDbData) && taskData.isCompleted
+        ? 'Good Work. Keep on pushing'
+        : `Let's tackle this later`,
+      data: taskDbData,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      error: [],
+      msg: 'Something went wrong. Try again later',
+      data: null,
+    });
+  }
+};
+
 export {
   createTask,
   getAllTasks,
@@ -267,4 +311,5 @@ export {
   updateTask,
   // deleteTask_Hard as deleteTask,
   deleteTask_Soft as deleteTask,
+  updateTaskStatus,
 };

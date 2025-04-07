@@ -6,6 +6,7 @@ import {
   getTaskById,
   updateTask,
   deleteTask,
+  updateTaskStatus,
 } from '#Controllers/task.controller.js';
 import userAuthCheck from '#Middlewares/userAuth.js';
 
@@ -18,6 +19,7 @@ baseRouter.get('/getAll', getAllTasks);
 baseRouter.get('/get/:taskId', getTaskById);
 baseRouter.put('/update', updateTask);
 baseRouter.delete('/delete/:taskId', deleteTask);
+baseRouter.patch('/change-status', updateTaskStatus);
 
 /* Add Middlewares */
 taskRouter.use('/tasks', userAuthCheck, baseRouter);

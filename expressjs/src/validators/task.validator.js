@@ -18,3 +18,13 @@ export const updateTaskByIDSchema = Joi.object({
     taskId: Joi.string().hex().length(24).required(),
   }),
 });
+
+export const patchTaskByIDSchema = Joi.object({
+  body: Joi.object({
+    isCompleted: Joi.boolean().required().label('Status'),
+  }),
+  query: Joi.object({
+    taskId: Joi.string().hex().length(24).required(),
+  }),
+});
+
