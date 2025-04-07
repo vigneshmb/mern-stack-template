@@ -1,19 +1,19 @@
-import { Route, Routes } from 'react-router';
-import App from '../App';
-import HomePage from '#Pages/HomePage.jsx';
-import BoardListPage from '#Pages/BoardListPage.jsx';
-import LoginSignUpPage from '#Pages/LoginSignupPage.jsx';
+import { Routes } from 'react-router';
 
-const RedirectByToken = () => {};
+import PrivateRoutes from './PrivateRoutes';
+import PublicRoutes from './PublicRoutes';
+import { UserProvider } from '#Contexts/userContext.jsx';
+import { TaskProvider } from '#Contexts/TaskContext.jsx';
 
 export default function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<LoginSignUpPage />} />
-      <Route path="board" element={<BoardListPage />}>
-        <Route index element={<BoardListPage />} />
-        {/* <Route path="board/:id" element={<Project />} /> */}
-      </Route>
-    </Routes>
+    <UserProvider>
+      <TaskProvider>
+        <Routes>
+          {PublicRoutes()}
+          {PrivateRoutes()}
+        </Routes>
+      </TaskProvider>
+    </UserProvider>
   );
 }

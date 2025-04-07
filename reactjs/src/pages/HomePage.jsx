@@ -1,3 +1,4 @@
+
 function HomePage() {
   return (
     <div className="flex justify-center items-center h-dvh">
@@ -11,7 +12,6 @@ function HomePage() {
           A tool created to learn the MERN Stack
         </p>
         <div className=" max-w-lg bg-amber-300"></div>
-
         <p className="text-center text-lg font-medium">
           Please select the option
         </p>

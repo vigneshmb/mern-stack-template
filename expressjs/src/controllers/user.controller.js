@@ -107,14 +107,17 @@ const loginUser = async (req, res) => {
       username,
       jwtTokens: newTokens,
     } = dbData;
-    const jwtToken = createToken({
-      _id,
+    const userDataResp = {
       firstName,
       middleName,
       lastName,
       dob,
       email,
       username,
+    };
+    const jwtToken = createToken({
+      ...userDataResp,
+      _id,
     });
 
     newTokens.push(jwtToken);
@@ -125,7 +128,7 @@ const loginUser = async (req, res) => {
     return res.status(200).send({
       error: null,
       msg: 'Loggedin successfully',
-      data: [],
+      data: [{ ...userDataResp }],
     });
   } catch (error) {
     return res.status(500).send({
@@ -227,11 +230,11 @@ const changeResetPassword = async (req, res) => {
     passwordArray.length > 3 && passwordArray.shift();
 
     let newData = {
-      password: hashedPswd,
-      oldPasswords: passwordArray,
-      resetOtp: null,
-      otpAttempt: 0,
-    },
+        password: hashedPswd,
+        oldPasswords: passwordArray,
+        resetOtp: null,
+        otpAttempt: 0,
+      },
       msg = '';
 
     await userModel.findByIdAndUpdate(_id, newData);

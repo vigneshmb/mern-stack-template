@@ -1,30 +1,25 @@
 import axiosWrap from '#Api/axiosWrap.js';
-import { loginUser } from '#Api/users.js';
-import { ThemedInput } from '#Components/ThemedInputs.jsx';
-import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
-import useStorage from '#Hooks/useStorage.jsx';
+import { loginUser } from '#Api/usersApi.js';
+import { ThemedInput } from '#Components/ThemedInputs/ThemedInputs.jsx';
+import { UserContext } from '#Contexts/userContext.jsx';
+import useBooleanToggle from '#Hooks/useBooleanToggle.jsx';
 import { checkEmail, checkPassword } from '#Utils/appConstants.js';
-import { useState } from 'react';
-import { toast } from 'react-fox-toast';
+import { useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 export default function Login() {
   const [userData, setUserData] = useState({
     email: '',
     password: '',
-    firstName: '',
-    middlename: '',
-    lastName: '',
   });
   const [formErrors, setFormErrors] = useState({
     email: '',
     password: '',
-    firstName: '',
   });
-  const { setLocal } = useStorage();
-
-  useEffectOnlyMount(() => {
-    toast.warning('Please Login to proceed further');
-  }, []);
+  const navigatePage = useNavigate();
+  const { updateUserData } = useContext(UserContext);
+  const [loginLoader, setLoginLoader] = useBooleanToggle(false);
 
   const handleValidation = (fieldName, fieldvalue) => {
     let errorMsg = '';
@@ -60,32 +55,40 @@ export default function Login() {
     });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     Object.keys(userData).map((name) => handleValidation(name, userData[name]));
     const noErrors = formErrors?.email == '' && formErrors?.password == '';
     if (!noErrors) {
       toast.error('Please enter valid data');
       return null;
-    } else {
-      const { email, password } = userData;
-      const loginPromise = loginUser({
-        emailUsername: email,
-        password,
-      })
-        .then((resp) => {
-          const jwt = resp.headers['authorization'];
-          localStorage.setItem('authJWT', jwt);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      toast.promise(loginPromise, {
-        loading: 'Peeking into our registry...',
-        success: 'User Logged in successfully!',
-        error: 'Please try again later',
-      });
     }
+    const { email, password } = userData;
+    setLoginLoader.on();
+    await loginUser({
+      emailUsername: email,
+      password,
+    })
+      .then((resp) => {
+        const { status, msg, data, headers } = resp;
+        if (status === 200) {
+          const jwt = headers['authorization'];
+          axiosWrap.defaults.headers.common['authorization'] = `Bearer ${jwt}`;
+          localStorage.setItem('authJWT', jwt);
+          toast.success(`${resp.msg}`);
+          updateUserData(true, data?.[0]);
+          setLoginLoader.off();
+          navigatePage('/boards');
+        } else {
+          toast.error(msg);
+          setLoginLoader.off();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err}`);
+        setLoginLoader.off();
+      });
   };
 
   const { email, password } = userData;
@@ -94,7 +97,7 @@ export default function Login() {
   console.count('Login UI');
 
   return (
-    <div className="flex flex-col items-stretch justify-around w-full">
+    <div className="flex flex-col items-stretch justify-around">
       <ThemedInput
         label={'Email'}
         inputName={'email'}
@@ -124,14 +127,15 @@ export default function Login() {
         <button
           name="login"
           type="submit"
-          className="
+          className={`
           bg-indigo-600 text-zinc-100 dark:bg-amber-400 dark:text-slate-800
           hover:bg-indigo-700
           hover:text-zinc-100
           dark:hover:bg-amber-400
           dark:hover:text-slate-800
-          rounded p-1 m-1 w-1/2 hover:scale-105 duration-200 ease-in-out"
+          rounded p-2 m-1 w-1/2 hover:scale-105 duration-200 ease-in-out`}
           onClick={handleLogin}
+          disabled={loginLoader}
         >
           Submit
         </button>

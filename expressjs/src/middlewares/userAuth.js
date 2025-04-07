@@ -20,9 +20,17 @@ export default async function userAuthCheck(req, res, next) {
       req.userData = { ...decryptData };
       next();
     } else {
-      return res.status(401).send('Token Expired by Logged out');
+      return res.status(401).send({
+        error: [],
+        msg: 'Token Expired by Logged out',
+        data: null,
+      });
     }
   } catch (error) {
-    return res.status(401).send('Authentication failed');
+    return res.status(401).send({
+      error: [],
+      msg: 'Authentication failed',
+      data: null,
+    });
   }
 }

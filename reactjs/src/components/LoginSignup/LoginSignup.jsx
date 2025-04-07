@@ -1,15 +1,9 @@
+import { ThemedButton } from '#Components/ThemedInputs/ThemedButton.jsx';
 import useBooleanToggle from '#Hooks/useBooleanToggle.jsx';
-import useEffectOnlyMount from '#Hooks/useEffectOnlyMount.jsx';
-import { toast } from 'react-fox-toast';
 import Login from './Login';
-import { ThemedButton } from '#Components/ThemedInputs.jsx';
 
 export default function LoginSignUp() {
   const [loginSignup, toggleLoginSignup] = useBooleanToggle(true);
-
-  useEffectOnlyMount(() => {
-    toast.warning('Please Login to proceed further');
-  }, []);
 
   const buttonStyle = `
   p-3
@@ -21,17 +15,11 @@ export default function LoginSignUp() {
 
   return (
     <div className="flex flex-col items-center justify-center bg-indigo-600 dark:bg-slate-700 border-2 border-indigo-400 dark:border-amber-200 rounded-md ring-2 dark:ring-amber-200 ring-indigo-400 shadow-lg shadow-indigo-500 dark:shadow-amber-500">
-      <h1 className="text-3xl p-2 font-extrabold dark:text-amber-200 text-zinc-100 text-center">
-        MERN Stack Template
-      </h1>
-      <div className="bg-indigo-100 dark:bg-zinc-700 text-indigo-500 dark:text-amber-400 mx-1 w-full">
-        {loginSignup ? <Login /> : <h1>Loading.....</h1>}
-      </div>
       <div className="flex justify-center items-stretch w-md bg-indigo-300 dark:bg-slate-800 rounded-b-sm">
         <ThemedButton
-          buttonHandler={(e)=>{
+          buttonHandler={(e) => {
             e.preventDefault();
-            toggleLoginSignup.on()
+            toggleLoginSignup.on();
           }}
           buttonLabel={'Login'}
           buttonStyle={`${
@@ -41,9 +29,9 @@ export default function LoginSignUp() {
           } ${buttonStyle}`}
         />
         <ThemedButton
-          buttonHandler={(e)=>{
+          buttonHandler={(e) => {
             e.preventDefault();
-            toggleLoginSignup.off()
+            toggleLoginSignup.off();
           }}
           buttonLabel={'Sign Up'}
           buttonStyle={`${
@@ -52,6 +40,9 @@ export default function LoginSignUp() {
               : 'bg-indigo-500 text-zinc-100 dark:bg-amber-200 dark:text-slate-800'
           } ${buttonStyle}`}
         />
+      </div>
+      <div className="bg-indigo-100 dark:bg-zinc-700 text-indigo-500 dark:text-amber-400 mx-1 w-full h-full">
+        {loginSignup ? <Login /> : <h1>Loading.....</h1>}
       </div>
     </div>
   );
